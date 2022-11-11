@@ -10,7 +10,7 @@ terraform {
 provider "pingone" {
   client_id                    = var.worker_id
   client_secret                = var.worker_secret
-  environment_id               = var.env_id
+  environment_id               = var.admin_env_id
   region                       = var.region
   force_delete_production_type = false
 }
