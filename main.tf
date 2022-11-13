@@ -148,3 +148,13 @@ resource "pingone_application_resource_grant" "pingone_scopes" {
     data.pingone_resource_scope.pingone_delete_sessions.id
   ]
 }
+
+# Add Sample User to Default Population
+resource "pingone_user" "one_facile_user" {
+  environment_id = pingone_environment.release_environment.id
+
+  # population_id = pingone_population.my_population.id
+
+  username = "facileuser1"
+  email    = "facileuser1@yourdomain.com"
+}

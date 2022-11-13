@@ -11,6 +11,8 @@ The HCL configures the following:
 * PingOne Environment
 * PingOne SSO
   * PingOne Application (OIDC)
+    * OIDC Scopes ( `openid` | `email` | `profile` )
+    * P1 API Scopes ( `p1:read:user` | `p1:update:user` | `p1:read:sessions` | `p1:delete:sessions` )
 
 ## To Do
 
@@ -27,3 +29,7 @@ Things not yet placed into the config:
   * Sign-On-Policies
     * Multi_Factor
     * Multi-Step (Progressive + Consent)
+* DaVinci
+  * Registration & SignOn
+  * Progressive Profiling
+  * Adaptive SignOn \ Passwordless
