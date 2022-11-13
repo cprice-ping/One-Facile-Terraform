@@ -153,7 +153,7 @@ resource "pingone_application_resource_grant" "pingone_scopes" {
 resource "pingone_user" "one_facile_user" {
   environment_id = pingone_environment.release_environment.id
 
-  # population_id = pingone_population.my_population.id
+  population_id = pingone_environment.release_environment.default_population_id
 
   username = "facileuser1"
   email    = "facileuser1@yourdomain.com"
