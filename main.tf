@@ -98,7 +98,7 @@ resource "pingone_application_resource_grant" "oidc_login_app" {
   environment_id = pingone_environment.release_environment.id
   application_id = pingone_application.oidc_login_app.id
 
-  resource_id = pingone_resource.openid_resource.id
+  resource_id = data.pingone_resource.openid_resource.id
 
   scopes = [
     data.pingone_resource_scope.openid_email.id,
