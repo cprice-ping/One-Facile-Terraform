@@ -53,6 +53,33 @@ resource "pingone_environment" "release_environment" {
   }
 }
 
+# Get Resource IDs used in OIDC Applications
+data "pingone_resource" "openid_resource" {
+  environment_id = pingone_environment.release_environment.id
+
+  name = "openid"
+}
+
+data "pingone_resource" "pingone_resource" {
+  environment_id = pingone_environment.release_environment.id
+
+  name = "pingone"
+}
+
+data "pingone_resource_scope" "openid_email" {
+  environment_id = pingone_environment.release_environment.id
+  resource_id    = data.pingone_resource.openid_resource.id
+
+  name = "email"
+}
+
+data "pingone_resource_scope" "openid_profile" {
+  environment_id = pingone_environment.release_environment.id
+  resource_id    = data.pingone_resource.openid_resource.id
+
+  name = "profile"
+}
+
 resource "pingone_application" "oidc_login_app" {
   environment_id = pingone_environment.release_environment.id
   name           = "OIDC Login"
@@ -65,4 +92,16 @@ resource "pingone_application" "oidc_login_app" {
     token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
     redirect_uris               = ["https://decoder.pingidentity.cloud/oidc", "https://decoder.pingidentity.cloud/hybrid"]
   }
+}
+
+resource "pingone_application_resource_grant" "oidc_login_app" {
+  environment_id = pingone_environment.release_environment.id
+  application_id = pingone_application.oidc_login_app.id
+
+  resource_id = pingone_resource.openid_resource.id
+
+  scopes = [
+    data.pingone_resource_scope.openid_email.id,
+    data.pingone_resource_scope.openid_profile.id
+  ]
 }

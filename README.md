@@ -10,7 +10,20 @@ The HCL configures the following:
 
 * PingOne Environment
 * PingOne SSO
-  * MFA Policy (Methods)
-  * MFA Sign-in Policy
   * PingOne Application (OIDC)
-  * PingOne Application (SAML)
+
+## To Do
+
+Things not yet placed into the config:
+
+* PingOne MFA Policy
+  * Method - SMS
+  * Method - EMail
+
+* PingOne SSO
+  * Sample User
+  * Application (SAML)
+  * Agreement
+  * Sign-On-Policies
+    * Multi_Factor
+    * Multi-Step (Progressive + Consent)
