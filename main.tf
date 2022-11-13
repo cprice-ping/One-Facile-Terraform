@@ -29,29 +29,29 @@ data "pingone_licenses" "internal_license" {
   }
 }
 
-# resource "pingone_environment" "release_environment" {
-#   name        = var.env_name
-#   description = "Created by Terraform"
-#   type        = "PRODUCTION"
-#   license_id  = data.pingone_licenses.internal_license.id
+resource "pingone_environment" "release_environment" {
+  name        = var.env_name
+  description = "Created by Terraform"
+  type        = "PRODUCTION"
+  license_id  = data.pingone_licenses.internal_license.0.id
 
-#   default_population {}
-#   service {
-#     type = "SSO"
-#   }
-#   service {
-#     type = "MFA"
-#   }
-#   service {
-#     type = "Risk"
-#   }
-#   # service {
-#   #   type = "Authorize"
-#   # }
-#   service {
-#     type = "DaVinci"
-#   }
-# }
+  default_population {}
+  service {
+    type = "SSO"
+  }
+  service {
+    type = "MFA"
+  }
+  service {
+    type = "Risk"
+  }
+  # service {
+  #   type = "Authorize"
+  # }
+  service {
+    type = "DaVinci"
+  }
+}
 
 # resource "pingone_application" "oidc_login_app" {
 #   environment_id = pingone_environment.release_environment.id
