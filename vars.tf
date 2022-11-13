@@ -13,7 +13,7 @@ variable "env_name" {
   description = "Environment Name"
 }
 
-variable "env_id" {
+variable "admin_env_id" {
   type        = string
   description = "P1 Environment containing the Worker App"
 }

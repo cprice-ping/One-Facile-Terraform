@@ -2,7 +2,15 @@
 
 Rework of One-Facile with Terrafom
 
-This repo contains the Terraform of a wired deployment of PingOne components:
+## Terraform Config
 
-* PingOne SSO (OIDC \ SAML \ User Store)
-* PingOne MFA
+This repo contains a set of HCL that builds out a set of [PingOne](https://www.pingidentity.com/en/try-ping.html) components to provide Identity services into an application.
+
+The HCL configures the following:
+
+* PingOne Environment
+* PingOne SSO
+  * MFA Policy (Methods)
+  * MFA Sign-in Policy
+  * PingOne Application (OIDC)
+  * PingOne Application (SAML)

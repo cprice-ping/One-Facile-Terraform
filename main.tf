@@ -15,11 +15,26 @@ provider "pingone" {
   force_delete_production_type = false
 }
 
+data "pingone_licenses" "internal_license" {
+  organization_id = var.org_id
+
+  data_filter {
+    name   = "package"
+    values = ["INTERNAL"]
+  }
+
+  data_filter {
+    name   = "status"
+    values = ["ACTIVE"]
+  }
+}
+
 resource "pingone_environment" "release_environment" {
-  name        = var.deploy_name
+  name        = var.env_name
   description = "Created by Terraform"
   type        = "PRODUCTION"
-  license_id  = var.license_id
+  license_id  = data.pingone_licenses.internal_license.id
+
   default_population {}
   service {
     type = "SSO"
@@ -36,14 +51,11 @@ resource "pingone_environment" "release_environment" {
   service {
     type = "DaVinci"
   }
-  # service {
-  #   type= "Fraud"
-  # }
 }
 
-resource "pingone_application" "login_app" {
+resource "pingone_application" "oidc_login_app" {
   environment_id = pingone_environment.release_environment.id
-  name           = var.app_client_name
+  name           = "OIDC Login"
   enabled        = true
 
   oidc_options {
@@ -51,7 +63,7 @@ resource "pingone_application" "login_app" {
     grant_types                 = ["AUTHORIZATION_CODE", "REFRESH_TOKEN"]
     response_types              = ["CODE"]
     token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
-    redirect_uris               = var.app_redirect_uris
+    redirect_uris               = ["https://decoder.pingidentity.cloud/oidc", "https://decoder.pingidentity.cloud/hybrid"]
   }
 }
 
