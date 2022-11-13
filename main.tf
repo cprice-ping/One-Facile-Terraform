@@ -53,17 +53,11 @@ resource "pingone_environment" "release_environment" {
   }
 }
 
-# Get Resource IDs used in OIDC Applications
+# Apply OIDC Scopes
 data "pingone_resource" "openid_resource" {
   environment_id = pingone_environment.release_environment.id
 
   name = "openid"
-}
-
-data "pingone_resource" "pingone_resource" {
-  environment_id = pingone_environment.release_environment.id
-
-  name = "PingOne API"
 }
 
 data "pingone_resource_scope" "openid_email" {
@@ -80,11 +74,39 @@ data "pingone_resource_scope" "openid_profile" {
   name = "profile"
 }
 
+# Apply PingOne API scopes
+data "pingone_resource" "pingone_resource" {
+  environment_id = pingone_environment.release_environment.id
+
+  name = "PingOne API"
+}
+
 data "pingone_resource_scope" "pingone_read_user" {
   environment_id = pingone_environment.release_environment.id
   resource_id    = data.pingone_resource.pingone_resource.id
 
   name = "p1:read:user"
+}
+
+data "pingone_resource_scope" "pingone_update_user" {
+  environment_id = pingone_environment.release_environment.id
+  resource_id    = data.pingone_resource.pingone_resource.id
+
+  name = "p1:update:user"
+}
+
+data "pingone_resource_scope" "pingone_read_sessions" {
+  environment_id = pingone_environment.release_environment.id
+  resource_id    = data.pingone_resource.pingone_resource.id
+
+  name = "p1:read:sessions"
+}
+
+data "pingone_resource_scope" "pingone_delete_sessions" {
+  environment_id = pingone_environment.release_environment.id
+  resource_id    = data.pingone_resource.pingone_resource.id
+
+  name = "p1:delete:sessions"
 }
 
 resource "pingone_application" "oidc_login_app" {
@@ -120,6 +142,9 @@ resource "pingone_application_resource_grant" "pingone_scopes" {
   resource_id = data.pingone_resource.pingone_resource.id
 
   scopes = [
-    data.pingone_resource_scope.pingone_read_user.id
+    data.pingone_resource_scope.pingone_read_user.id,
+    data.pingone_resource_scope.pingone_update_user.id,
+    data.pingone_resource_scope.pingone_read_sessions.id,
+    data.pingone_resource_scope.pingone_delete_sessions.id
   ]
 }
