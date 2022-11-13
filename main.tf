@@ -63,7 +63,7 @@ data "pingone_resource" "openid_resource" {
 data "pingone_resource" "pingone_resource" {
   environment_id = pingone_environment.release_environment.id
 
-  name = "pingone_api"
+  resource_id = "b80bd858-8bf3-4cbd-b9d5-d8cf2901ef74"
 }
 
 data "pingone_resource_scope" "openid_email" {
