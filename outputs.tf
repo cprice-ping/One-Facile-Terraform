@@ -1,3 +1,3 @@
-output "pingone_license" {
-    value = data.pingone_licenses.internal_license.ids[0]
+output "pingone_resource" {
+    value = data.pingone_resource.pingone_resource
 }
