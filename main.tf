@@ -82,7 +82,7 @@ data "pingone_resource_scope" "openid_profile" {
 
 data "pingone_resource_scope" "pingone_read_user" {
   environment_id = pingone_environment.release_environment.id
-  resource_id    = data.pingone_resource.openid_resource.id
+  resource_id    = data.pingone_resource.pingone_resource.id
 
   name = "p1:read:user"
 }
