@@ -33,7 +33,7 @@ resource "pingone_environment" "release_environment" {
   name        = var.env_name
   description = "Created by Terraform"
   type        = "PRODUCTION"
-  license_id  = data.pingone_licenses.internal_license.0.id
+  license_id  = data.pingone_licenses.internal_license.ids[0]
 
   default_population {}
   service {
