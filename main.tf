@@ -53,16 +53,16 @@ resource "pingone_environment" "release_environment" {
   }
 }
 
-# resource "pingone_application" "oidc_login_app" {
-#   environment_id = pingone_environment.release_environment.id
-#   name           = "OIDC Login"
-#   enabled        = true
+resource "pingone_application" "oidc_login_app" {
+  environment_id = pingone_environment.release_environment.id
+  name           = "OIDC Login"
+  enabled        = true
 
-#   oidc_options {
-#     type                        = "WEB_APP"
-#     grant_types                 = ["AUTHORIZATION_CODE", "REFRESH_TOKEN"]
-#     response_types              = ["CODE"]
-#     token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
-#     redirect_uris               = ["https://decoder.pingidentity.cloud/oidc", "https://decoder.pingidentity.cloud/hybrid"]
-#   }
-# }
+  oidc_options {
+    type                        = "WEB_APP"
+    grant_types                 = ["AUTHORIZATION_CODE", "REFRESH_TOKEN"]
+    response_types              = ["CODE"]
+    token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
+    redirect_uris               = ["https://decoder.pingidentity.cloud/oidc", "https://decoder.pingidentity.cloud/hybrid"]
+  }
+}
