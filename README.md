@@ -23,12 +23,14 @@ Things not yet placed into the config:
   * Method - EMail
 
 * PingOne SSO
-  * Sample User
   * Application (SAML)
   * Agreement
   * Sign-On-Policies
     * Multi_Factor
     * Multi-Step (Progressive + Consent)
+  * Administrator Roles
+    * ID Admin
+    * Client Dev
 * DaVinci
   * Registration & SignOn
   * Progressive Profiling
