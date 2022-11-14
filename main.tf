@@ -176,6 +176,19 @@ resource "pingone_application_resource_grant" "pingone_scopes" {
   ]
 }
 
+# Add SAML Application
+resource "pingone_application" "facile_saml" {
+  environment_id = pingone_environment.release_environment.id
+  name           = "Facile SAML App"
+  enabled        = true
+
+  saml_options {
+    acs_urls           = ["https://decoder.pingidentity.cloud"]
+    assertion_duration = 3600
+    sp_entity_id       = "urn:facile:saml"
+  }
+}
+
 # Add Sample User to Default Population
 resource "pingone_user" "one_facile_user" {
   environment_id = pingone_environment.release_environment.id

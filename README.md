@@ -16,6 +16,7 @@ The HCL configures the following:
   * PingOne Application (OIDC)
     * OIDC Scopes ( `openid` | `email` | `profile` )
     * P1 API Scopes ( `p1:read:user` | `p1:update:user` | `p1:read:sessions` | `p1:delete:sessions` )
+  * PingOne Application (SAML)
   * Sample User
     * `facileuser1@yourdomain.com`
 
@@ -40,7 +41,6 @@ Things not yet placed into the config:
   * Method - EMail
 
 * PingOne SSO
-  * Application (SAML)
   * Agreement
   * Sign-On-Policies
     * Multi_Factor
