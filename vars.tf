@@ -18,6 +18,11 @@ variable "admin_env_id" {
   description = "P1 Environment containing the Worker App"
 }
 
+variable "admin_user_id" {
+  type        = string
+  description = "P1 Admin User to get full access to the release Env - must be in the same Env as the Worker"
+}
+
 variable "worker_id" {
   type        = string
   description = "Worker App ID App - App must have sufficient Roles"

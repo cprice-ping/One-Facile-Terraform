@@ -53,6 +53,31 @@ resource "pingone_environment" "release_environment" {
   }
 }
 
+# Grant Roles to Admin User
+data "pingone_role" "identity_data_admin" {
+  name = "Identity Data Admin"
+}
+
+data "pingone_role" "client_application_developer" {
+  name = "Client Application Developer"
+}
+
+resource "pingone_role_assignment_user" "id_admin" {
+  environment_id = var.admin_env_id
+  user_id        = var.admin_user_id
+  role_id        = data.pingone_role.identity_data_admin.id
+
+  # scope_population_id = pingone_environment.my_environment.default_population_id
+}
+
+resource "pingone_role_assignment_user" "app_dev" {
+  environment_id = var.admin_env_id
+  user_id        = var.admin_user_id
+  role_id        = data.pingone_role.client_application_developer.id
+
+  # scope_population_id = pingone_environment.my_environment.default_population_id
+}
+
 # Apply OIDC Scopes
 data "pingone_resource" "openid_resource" {
   environment_id = pingone_environment.release_environment.id
