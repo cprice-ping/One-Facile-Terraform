@@ -19,6 +19,18 @@ The HCL configures the following:
   * Sample User
     * `facileuser1@yourdomain.com`
 
+## Variables
+
+| Name | Description |
+| --- | --- |
+| `region` | PingOne Region ( NorthAmerica | Europe | Asia ) |
+| `org_id` | PingOne Organization Id (located on Environment -> Properties)
+| `admin_env_id` | PingOne Environment where Administration is managed |
+| `admin_user_id` | PingOne Admin User (User -> API) |
+| `worker_id` | PingOne Worker App (must have rights to create Environments \ Users \ Applications)
+| `worker_secret` | PingOne Worker App secret |
+| `env_name` | Name of the PingOne Environment to create |
+
 ## To Do
 
 Things not yet placed into the config:
