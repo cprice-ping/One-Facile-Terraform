@@ -198,3 +198,50 @@ resource "pingone_user" "one_facile_user" {
   username = "facileuser1"
   email    = "facileuser1@yourdomain.com"
 }
+
+# Create Sign-On Policies
+## Multi_Step ( Login | Progressive Profiling )
+resource "pingone_sign_on_policy" "multi_step" {
+  environment_id = pingone_environment.release_environment.id
+
+  name        = "Multi_Step"
+  description = "Multi-step policy - login with progressive profiling"
+}
+
+resource "pingone_sign_on_policy_action" "my_policy_first_factor" {
+  environment_id    = pingone_environment.release_environment.id
+  sign_on_policy_id = pingone_sign_on_policy.multi_step.id
+
+  priority = 1
+
+  conditions {
+    last_sign_on_older_than_seconds = 604800 // 7 days
+  }
+
+  login {
+    recovery_enabled = true
+  }
+}
+
+resource "pingone_sign_on_policy_action" "my_policy_progressive_profiling" {
+  environment_id    = pingone_environment.release_environment.id
+  sign_on_policy_id = pingone_sign_on_policy.multi_step.id
+
+  priority = 2
+
+  progressive_profiling {
+
+    attribute {
+      name     = "name.given"
+      required = false
+    }
+
+    attribute {
+      name     = "name.family"
+      required = true
+    }
+
+    prompt_text = "For the best experience, we need a couple things from you."
+
+  }
+}
