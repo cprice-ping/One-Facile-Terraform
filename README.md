@@ -29,6 +29,7 @@ The HCL configures the following:
 | `admin_user_id` | PingOne Admin User (User -> API) |
 | `worker_id` | PingOne Worker App (must have rights to create Environments \ Users \ Applications)
 | `worker_secret` | PingOne Worker App secret |
+| `env_name` | Name of the PingOne Environment to create |
 
 ## To Do
 
