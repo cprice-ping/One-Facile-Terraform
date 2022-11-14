@@ -67,7 +67,7 @@ resource "pingone_role_assignment_user" "id_admin" {
   user_id        = var.admin_user_id
   role_id        = data.pingone_role.identity_data_admin.id
 
-  # scope_population_id = pingone_environment.my_environment.default_population_id
+  scope_environment_id = pingone_environment.release_environment.id
 }
 
 resource "pingone_role_assignment_user" "app_dev" {
@@ -75,7 +75,7 @@ resource "pingone_role_assignment_user" "app_dev" {
   user_id        = var.admin_user_id
   role_id        = data.pingone_role.client_application_developer.id
 
-  # scope_population_id = pingone_environment.my_environment.default_population_id
+  scope_environment_id = pingone_environment.release_environment.id
 }
 
 # Apply OIDC Scopes
