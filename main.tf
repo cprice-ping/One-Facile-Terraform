@@ -78,7 +78,22 @@ resource "pingone_role_assignment_user" "app_dev" {
   scope_environment_id = pingone_environment.release_environment.id
 }
 
-# Apply OIDC Scopes
+# Create OIDC Application
+resource "pingone_application" "oidc_login_app" {
+  environment_id = pingone_environment.release_environment.id
+  name           = "OIDC Login"
+  enabled        = true
+
+  oidc_options {
+    type                        = "WEB_APP"
+    grant_types                 = ["AUTHORIZATION_CODE", "REFRESH_TOKEN"]
+    response_types              = ["CODE"]
+    token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
+    redirect_uris               = ["https://decoder.pingidentity.cloud/oidc", "https://decoder.pingidentity.cloud/hybrid"]
+  }
+}
+
+# Collect OIDC Scopes
 data "pingone_resource" "openid_resource" {
   environment_id = pingone_environment.release_environment.id
 
@@ -99,7 +114,7 @@ data "pingone_resource_scope" "openid_profile" {
   name = "profile"
 }
 
-# Apply PingOne API scopes
+# Collect PingOne API scopes
 data "pingone_resource" "pingone_resource" {
   environment_id = pingone_environment.release_environment.id
 
@@ -134,20 +149,7 @@ data "pingone_resource_scope" "pingone_delete_sessions" {
   name = "p1:delete:sessions"
 }
 
-resource "pingone_application" "oidc_login_app" {
-  environment_id = pingone_environment.release_environment.id
-  name           = "OIDC Login"
-  enabled        = true
-
-  oidc_options {
-    type                        = "WEB_APP"
-    grant_types                 = ["AUTHORIZATION_CODE", "REFRESH_TOKEN"]
-    response_types              = ["CODE"]
-    token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
-    redirect_uris               = ["https://decoder.pingidentity.cloud/oidc", "https://decoder.pingidentity.cloud/hybrid"]
-  }
-}
-
+# Apply Scopes to OIDC App
 resource "pingone_application_resource_grant" "oidc_scopes" {
   environment_id = pingone_environment.release_environment.id
   application_id = pingone_application.oidc_login_app.id
