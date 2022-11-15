@@ -200,15 +200,15 @@ resource "pingone_user" "one_facile_user" {
 }
 
 # Create Sign-On Policies
-## Multi_Step ( Login | Progressive Profiling )
+# Create Single_Factor SOP - enable Registration
 resource "pingone_sign_on_policy" "multi_step" {
   environment_id = pingone_environment.release_environment.id
 
-  name        = "Multi_Step"
-  description = "Multi-step policy - login with progressive profiling"
+  name        = "Facile_Single_Factor"
+  description = "Login with Registration"
 }
 
-resource "pingone_sign_on_policy_action" "my_policy_first_factor" {
+resource "pingone_sign_on_policy_action" "login" {
   environment_id    = pingone_environment.release_environment.id
   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
 
@@ -223,7 +223,30 @@ resource "pingone_sign_on_policy_action" "my_policy_first_factor" {
   }
 }
 
-resource "pingone_sign_on_policy_action" "my_policy_progressive_profiling" {
+## Multi_Step ( Login | Progressive Profiling )
+resource "pingone_sign_on_policy" "multi_step" {
+  environment_id = pingone_environment.release_environment.id
+
+  name        = "Facile_Multi_Step"
+  description = "Multi-step policy - login with progressive profiling"
+}
+
+resource "pingone_sign_on_policy_action" "login" {
+  environment_id    = pingone_environment.release_environment.id
+  sign_on_policy_id = pingone_sign_on_policy.multi_step.id
+
+  priority = 1
+
+  conditions {
+    last_sign_on_older_than_seconds = 604800 // 7 days
+  }
+
+  login {
+    recovery_enabled = true
+  }
+}
+
+resource "pingone_sign_on_policy_action" "progressive_profiling" {
   environment_id    = pingone_environment.release_environment.id
   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
 
@@ -245,3 +268,4 @@ resource "pingone_sign_on_policy_action" "my_policy_progressive_profiling" {
 
   }
 }
+
