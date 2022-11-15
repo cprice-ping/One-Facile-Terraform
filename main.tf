@@ -88,7 +88,7 @@ resource "pingone_application" "oidc_login_app" {
     type                        = "WEB_APP"
     grant_types                 = ["AUTHORIZATION_CODE", "REFRESH_TOKEN"]
     response_types              = ["CODE"]
-    token_endpoint_authn_method = "CLIENT_SECRET_BASIC"
+    token_endpoint_authn_method = "NONE"
     redirect_uris               = ["https://decoder.pingidentity.cloud/oidc", "https://decoder.pingidentity.cloud/hybrid"]
   }
 }
