@@ -13,6 +13,9 @@ The HCL configures the following:
   * Administrator Roles
     * ID Admin
     * Client Dev
+  * Sign-On-Policies
+    * Single_Factor (DV)
+    * Multi-Step (DV)
   * PingOne Application (OIDC)
     * OIDC Scopes ( `openid` | `email` | `profile` )
     * P1 API Scopes ( `p1:read:user` | `p1:update:user` | `p1:read:sessions` | `p1:delete:sessions` )
@@ -42,9 +45,6 @@ Things not yet placed into the config:
 
 * PingOne SSO
   * Agreement
-  * Sign-On-Policies
-    * Multi_Factor
-    * Multi-Step (Progressive + Consent)
 
 * DaVinci
   * Registration & SignOn
