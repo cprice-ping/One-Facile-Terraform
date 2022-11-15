@@ -223,26 +223,26 @@ resource "pingone_sign_on_policy_action" "single_login" {
 }
 
 ## Multi_Step ( Login | Progressive Profiling )
-resource "pingone_sign_on_policy" "multi_step" {
-  environment_id = pingone_environment.release_environment.id
+# resource "pingone_sign_on_policy" "multi_step" {
+#   environment_id = pingone_environment.release_environment.id
 
-  name        = "Facile_Multi_Step"
-  description = "DV - Multi-step policy - login with progressive profiling"
-}
+#   name        = "Facile_Multi_Step"
+#   description = "DV - Multi-step policy - login with progressive profiling"
+# }
 
-resource "pingone_sign_on_policy_action" "multi_login" {
-  environment_id    = pingone_environment.release_environment.id
-  sign_on_policy_id = pingone_sign_on_policy.multi_step.id
+# resource "pingone_sign_on_policy_action" "multi_login" {
+#   environment_id    = pingone_environment.release_environment.id
+#   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
 
-  priority = 1
+#   priority = 1
 
-  identity_provider {
-    identity_provider_id = pingone_identity_provider.davinci.id
+#   identity_provider {
+#     identity_provider_id = pingone_identity_provider.davinci.id
 
-    acr_values        = "policyId-yourPolicyIdHere"
-    pass_user_context = false
-  }
-}
+#     acr_values        = "policyId-yourPolicyIdHere"
+#     pass_user_context = false
+#   }
+# }
 
 # Creating External IdP (OIDC) for DaVinci
 resource "pingone_identity_provider" "davinci" {
