@@ -199,49 +199,86 @@ resource "pingone_user" "one_facile_user" {
   email    = "facileuser1@yourdomain.com"
 }
 
+# Creating External IdP (OIDC) for DaVinci
+resource "pingone_identity_provider" "davinci" {
+  environment_id = pingone_environment.release_environment.id
+
+  name    = "Facile_DaVinci_Connection"
+  enabled = true
+
+  openid_connect {
+    authorization_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/authorize"
+    issuer = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci"
+    jwks_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/.well-known/jwks.json"
+    token_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/token"
+    client_id     = "putYourDVclientIdHere"
+    client_secret = "putYourDVclientSecretHere"
+    scopes = [
+      "openid", 
+      "profile"
+    ]
+  }
+}
+
 # Create Sign-On Policies
+# Create Single_Factor SOP - enable Registration
+resource "pingone_sign_on_policy" "single_factor" {
+  environment_id = pingone_environment.release_environment.id
+
+  name        = "Facile_Single_Factor"
+  description = "DV - Login with Registration"
+}
+
+resource "pingone_sign_on_policy_action" "single_login" {
+  environment_id    = pingone_environment.release_environment.id
+  sign_on_policy_id = pingone_sign_on_policy.single_factor.id
+
+  priority = 1
+
+  identity_provider {
+    identity_provider_id = pingone_identity_provider.davinci.id
+
+    acr_values        = "policyId-yourPolicyIdHere"
+    pass_user_context = false
+  }
+}
+
 ## Multi_Step ( Login | Progressive Profiling )
 resource "pingone_sign_on_policy" "multi_step" {
   environment_id = pingone_environment.release_environment.id
 
-  name        = "Multi_Step"
-  description = "Multi-step policy - login with progressive profiling"
+  name        = "Facile_Multi_Step"
+  description = "DV - Multi-step policy - login with progressive profiling"
 }
 
-resource "pingone_sign_on_policy_action" "my_policy_first_factor" {
+resource "pingone_sign_on_policy_action" "multi_login" {
   environment_id    = pingone_environment.release_environment.id
   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
 
   priority = 1
 
-  conditions {
-    last_sign_on_older_than_seconds = 604800 // 7 days
-  }
+  identity_provider {
+    identity_provider_id = pingone_identity_provider.davinci.id
 
-  login {
-    recovery_enabled = true
+    acr_values        = "policyId-yourPolicyIdHere"
+    pass_user_context = false
   }
 }
 
-resource "pingone_sign_on_policy_action" "my_policy_progressive_profiling" {
-  environment_id    = pingone_environment.release_environment.id
+
+resource "pingone_application_sign_on_policy_assignment" "single_factor" {
+  environment_id = pingone_environment.release_environment.id
+  application_id = pingone_application.oidc_login_app.id
+
+  sign_on_policy_id = pingone_sign_on_policy.single_factor.id
+
+  priority = 1
+}
+
+resource "pingone_application_sign_on_policy_assignment" "multi_factor" {
+  environment_id = pingone_environment.release_environment.id
+  application_id = pingone_application.oidc_login_app.id
+
   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
-
   priority = 2
-
-  progressive_profiling {
-
-    attribute {
-      name     = "name.given"
-      required = false
-    }
-
-    attribute {
-      name     = "name.family"
-      required = true
-    }
-
-    prompt_text = "For the best experience, we need a couple things from you."
-
-  }
 }
