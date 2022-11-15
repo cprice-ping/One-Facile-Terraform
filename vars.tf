@@ -32,3 +32,12 @@ variable "worker_secret" {
   type        = string
   description = "Worker App Secret - App must have sufficient Roles"
 }
+
+locals {
+  # Translate the Region to a Domain suffix
+  north_america = "${var.region == "NorthAmerica" ? "com" : ""}"
+  europe = "${var.region == "Europe" ? "eu" : ""}"
+  canada = "${var.region == "Canada" ? "ca" : ""}"
+  asia_pacific = "${var.region == "AsiaPacific" ? "asia" : ""}"
+  pingone_domain = "${coalesce(local.north_america, local.europe, local.canada, local.asia_pacific)}"
+}
