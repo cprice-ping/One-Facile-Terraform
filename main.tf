@@ -201,26 +201,26 @@ resource "pingone_user" "one_facile_user" {
 
 # Create Sign-On Policies
 # Create Single_Factor SOP - enable Registration
-resource "pingone_sign_on_policy" "single_factor" {
-  environment_id = pingone_environment.release_environment.id
+# resource "pingone_sign_on_policy" "single_factor" {
+#   environment_id = pingone_environment.release_environment.id
 
-  name        = "Facile_Single_Factor"
-  description = "DV - Login with Registration"
-}
+#   name        = "Facile_Single_Factor"
+#   description = "DV - Login with Registration"
+# }
 
-resource "pingone_sign_on_policy_action" "single_login" {
-  environment_id    = pingone_environment.release_environment.id
-  sign_on_policy_id = pingone_sign_on_policy.single_factor.id
+# resource "pingone_sign_on_policy_action" "single_login" {
+#   environment_id    = pingone_environment.release_environment.id
+#   sign_on_policy_id = pingone_sign_on_policy.single_factor.id
 
-  priority = 0
+#   priority = 1
 
-  identity_provider {
-    identity_provider_id = pingone_identity_provider.davinci.id
+#   identity_provider {
+#     identity_provider_id = pingone_identity_provider.davinci.id
 
-    acr_values        = "policyId-yourPolicyIdHere"
-    pass_user_context = false
-  }
-}
+#     acr_values        = "policyId-yourPolicyIdHere"
+#     pass_user_context = false
+#   }
+# }
 
 ## Multi_Step ( Login | Progressive Profiling )
 resource "pingone_sign_on_policy" "multi_step" {
@@ -234,7 +234,7 @@ resource "pingone_sign_on_policy_action" "multi_login" {
   environment_id    = pingone_environment.release_environment.id
   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
 
-  priority = 0
+  priority = 1
 
   identity_provider {
     identity_provider_id = pingone_identity_provider.davinci.id
