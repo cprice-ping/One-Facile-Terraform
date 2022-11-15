@@ -28,7 +28,7 @@ The HCL configures the following:
 | `org_id` | PingOne Organization Id (located on Environment -> Properties)
 | `admin_env_id` | PingOne Environment where Administration is managed |
 | `admin_user_id` | PingOne Admin User (User -> API) |
-| `worker_id` | PingOne Worker App (must have rights to create Environments \ Users \ Applications)
+| `worker_id` | PingOne Worker App (must have roles to create Environments \ Users \ Applications)
 | `worker_secret` | PingOne Worker App secret |
 | `env_name` | Name of the PingOne Environment to create |
 
