@@ -190,14 +190,14 @@ resource "pingone_application" "saml_login_app" {
 }
 
 # Add Sample User to Default Population
-resource "pingone_user" "one_facile_user" {
-  environment_id = pingone_environment.release_environment.id
+# resource "pingone_user" "one_facile_user" {
+#   environment_id = pingone_environment.release_environment.id
 
-  population_id = pingone_environment.release_environment.default_population_id
+#   population_id = pingone_environment.release_environment.default_population_id
 
-  username = "facileuser1"
-  email    = "facileuser1@yourdomain.com"
-}
+#   username = "facileuser1"
+#   email    = "facileuser1@yourdomain.com"
+# }
 
 # Creating External IdP (OIDC) for DaVinci
 resource "pingone_identity_provider" "davinci" {
