@@ -199,6 +199,27 @@ resource "pingone_user" "one_facile_user" {
   email    = "facileuser1@yourdomain.com"
 }
 
+# Creating External IdP (OIDC) for DaVinci
+resource "pingone_identity_provider" "davinci" {
+  environment_id = pingone_environment.release_environment.id
+
+  name    = "Facile_DaVinci_Connection"
+  enabled = true
+
+  openid_connect {
+    authorization_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/authorize"
+    issuer = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci"
+    jwks_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/.well-known/jwks.json"
+    token_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/token"
+    client_id     = "putYourDVclientIdHere"
+    client_secret = "putYourDVclientSecretHere"
+    scopes = [
+      "openid", 
+      "profile"
+    ]
+  }
+}
+
 # Create Sign-On Policies
 # Create Single_Factor SOP - enable Registration
 resource "pingone_sign_on_policy" "single_factor" {
@@ -244,23 +265,20 @@ resource "pingone_sign_on_policy_action" "multi_login" {
   }
 }
 
-# Creating External IdP (OIDC) for DaVinci
-resource "pingone_identity_provider" "davinci" {
+
+resource "pingone_application_sign_on_policy_assignment" "single_factor" {
   environment_id = pingone_environment.release_environment.id
+  application_id = pingone_application.oidc_login_app.id
 
-  name    = "Facile_DaVinci_Connection"
-  enabled = true
+  sign_on_policy_id = pingone_sign_on_policy.single_factor.id
 
-  openid_connect {
-    authorization_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/authorize"
-    issuer = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci"
-    jwks_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/.well-known/jwks.json"
-    token_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/token"
-    client_id     = "putYourDVclientIdHere"
-    client_secret = "putYourDVclientSecretHere"
-    scopes = [
-      "openid", 
-      "profile"
-    ]
-  }
+  priority = 1
+}
+
+resource "pingone_application_sign_on_policy_assignment" "multi_factor" {
+  environment_id = pingone_environment.release_environment.id
+  application_id = pingone_application.oidc_login_app.id
+
+  sign_on_policy_id = pingone_sign_on_policy.multi_step.id
+  priority = 2
 }
