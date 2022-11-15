@@ -212,7 +212,7 @@ resource "pingone_sign_on_policy_action" "single_login" {
   environment_id    = pingone_environment.release_environment.id
   sign_on_policy_id = pingone_sign_on_policy.single_factor.id
 
-  priority = 1
+  priority = 0
 
   identity_provider {
     identity_provider_id = pingone_identity_provider.davinci.id
@@ -234,7 +234,7 @@ resource "pingone_sign_on_policy_action" "multi_login" {
   environment_id    = pingone_environment.release_environment.id
   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
 
-  priority = 1
+  priority = 0
 
   identity_provider {
     identity_provider_id = pingone_identity_provider.davinci.id
