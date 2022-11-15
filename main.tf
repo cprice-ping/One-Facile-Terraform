@@ -269,3 +269,20 @@ resource "pingone_sign_on_policy_action" "multi_progressive_profiling" {
   }
 }
 
+# Creating External IdP (OIDC) for DaVinci
+resource "pingone_identity_provider" "davinci" {
+  environment_id = pingone_environment.release_environment.id
+
+  name    = "Facile_DaVinci_Connection"
+  enabled = true
+
+  openid_connect {
+    authorization_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/authorize"
+    issuer = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci"
+    jwks_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/.well-known/jwks.json"
+    token_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/token"
+    client_id     = "putYourDVclientIdHere"
+    client_secret = "putYourDVclientSecretHere"
+    scopes = "openid profile"
+  }
+}
