@@ -7,5 +7,5 @@ output "oidc_login_url" {
 }
 
 output "saml_sso_url" {
-    value = pingone_application.facile_saml.saml_options
+    value = pingone_application.facile_saml
 }
