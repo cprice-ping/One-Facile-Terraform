@@ -177,9 +177,9 @@ resource "pingone_application_resource_grant" "pingone_scopes" {
 }
 
 # Add SAML Application
-resource "pingone_application" "facile_saml" {
+resource "pingone_application" "saml_login_app" {
   environment_id = pingone_environment.release_environment.id
-  name           = "Facile SAML App"
+  name           = "SAML Login"
   enabled        = true
 
   saml_options {

@@ -7,5 +7,5 @@ output "oidc_login_url" {
 }
 
 output "saml_sso_url" {
-    value = pingone_application.facile_saml
+    value = "https://auth.pingone${local.pingone_domain}/${pingone_environment.release_environment.id}/saml20/idp/startsso?spEntityId=urn:facile:saml"
 }
