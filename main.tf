@@ -205,7 +205,7 @@ resource "pingone_sign_on_policy" "single_factor" {
   environment_id = pingone_environment.release_environment.id
 
   name        = "Facile_Single_Factor"
-  description = "Login with Registration"
+  description = "DV - Login with Registration"
 }
 
 resource "pingone_sign_on_policy_action" "single_login" {
@@ -214,12 +214,11 @@ resource "pingone_sign_on_policy_action" "single_login" {
 
   priority = 1
 
-  conditions {
-    last_sign_on_older_than_seconds = 604800 // 7 days
-  }
+  identity_provider {
+    identity_provider_id = pingone_identity_provider.davinci.id
 
-  login {
-    recovery_enabled = true
+    acr_values        = "policyId-yourPolicyIdHere"
+    pass_user_context = false
   }
 }
 
@@ -228,7 +227,7 @@ resource "pingone_sign_on_policy" "multi_step" {
   environment_id = pingone_environment.release_environment.id
 
   name        = "Facile_Multi_Step"
-  description = "Multi-step policy - login with progressive profiling"
+  description = "DV - Multi-step policy - login with progressive profiling"
 }
 
 resource "pingone_sign_on_policy_action" "multi_login" {
@@ -237,35 +236,11 @@ resource "pingone_sign_on_policy_action" "multi_login" {
 
   priority = 1
 
-  conditions {
-    last_sign_on_older_than_seconds = 604800 // 7 days
-  }
+  identity_provider {
+    identity_provider_id = pingone_identity_provider.davinci.id
 
-  login {
-    recovery_enabled = true
-  }
-}
-
-resource "pingone_sign_on_policy_action" "multi_progressive_profiling" {
-  environment_id    = pingone_environment.release_environment.id
-  sign_on_policy_id = pingone_sign_on_policy.multi_step.id
-
-  priority = 2
-
-  progressive_profiling {
-
-    attribute {
-      name     = "name.given"
-      required = false
-    }
-
-    attribute {
-      name     = "name.family"
-      required = true
-    }
-
-    prompt_text = "For the best experience, we need a couple things from you."
-
+    acr_values        = "policyId-yourPolicyIdHere"
+    pass_user_context = false
   }
 }
 
