@@ -283,6 +283,9 @@ resource "pingone_identity_provider" "davinci" {
     token_endpoint = "https://auth.pingone.com/${pingone_environment.release_environment.id}/davinci/token"
     client_id     = "putYourDVclientIdHere"
     client_secret = "putYourDVclientSecretHere"
-    scopes = "openid profile"
+    scopes = [
+      "openid", 
+      "profile"
+    ]
   }
 }
