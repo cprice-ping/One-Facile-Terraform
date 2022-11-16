@@ -297,3 +297,6 @@ provider "davinci" {
   // User will be _authenticated_ to this environment
   environment_id = var.admin_env_id
 }
+
+data "davinci_applications" "all" {
+}
