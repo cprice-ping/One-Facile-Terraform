@@ -186,7 +186,7 @@ resource "pingone_application" "saml_login_app" {
   enabled        = true
 
   saml_options {
-    acs_urls           = ["https://decoder.pingidentity.cloud"]
+    acs_urls           = ["https://decoder.pingidentity.cloud/saml"]
     assertion_duration = 3600
     sp_entity_id       = "urn:facile:saml"
   }
@@ -268,7 +268,6 @@ resource "pingone_sign_on_policy_action" "multi_login" {
   }
 }
 
-
 resource "pingone_application_sign_on_policy_assignment" "single_factor" {
   environment_id = pingone_environment.release_environment.id
   application_id = pingone_application.oidc_login_app.id
@@ -299,5 +298,5 @@ provider "davinci" {
 }
 
 data "davinci_applications" "all" {
-  environment_id = pingone_environment.release_environment
+  environment_id = pingone_environment.release_environment.id
 }
