@@ -4,6 +4,9 @@ terraform {
       source = "pingidentity/pingone"
       # version = "~> 0.4"
     }
+    davinci = {
+      source = "pingidentity/davinci"
+    }
   }
 }
 
@@ -281,4 +284,16 @@ resource "pingone_application_sign_on_policy_assignment" "multi_factor" {
 
   sign_on_policy_id = pingone_sign_on_policy.multi_step.id
   priority = 2
+}
+
+// Login with PingOne Admin Environment user
+provider "davinci" {
+  //Must be Identity Data Admin for Environment 
+  // (typically PingOne Admin Environment User)
+  username = var.admin_username
+  password = var.admin_password
+  // This base_url is required
+  region = var.region
+  // User will be _authenticated_ to this environment
+  environment_id = var.admin_env_id
 }

@@ -33,6 +33,14 @@ variable "worker_secret" {
   description = "Worker App Secret - App must have sufficient Roles"
 }
 
+variable "admin_username" {
+  type = string
+}
+
+variable "admin_password" {
+  type = string
+}
+
 locals {
   # Translate the Region to a Domain suffix
   north_america = "${var.region == "NorthAmerica" ? "com" : ""}"
