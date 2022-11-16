@@ -299,4 +299,5 @@ provider "davinci" {
 }
 
 data "davinci_applications" "all" {
+  environment_id = pingone_environment.release_environment
 }
