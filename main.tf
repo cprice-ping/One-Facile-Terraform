@@ -51,6 +51,10 @@ resource "pingone_environment" "release_environment" {
   service {
     type = "DaVinci"
   }
+
+  service {
+    type = "Verify"
+  }
 }
 
 # Grant Roles to Admin User
