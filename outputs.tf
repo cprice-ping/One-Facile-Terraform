@@ -9,3 +9,7 @@ output "oidc_login_url" {
 output "saml_sso_url" {
     value = "https://auth.pingone.${local.pingone_domain}/${pingone_environment.release_environment.id}/saml20/idp/startsso?spEntityId=urn:facile:saml"
 }
+
+output "davinci_applications" {
+  value = data.davinci_applications.all.applications
+}
